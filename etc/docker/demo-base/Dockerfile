@@ -1,4 +1,4 @@
-ARG BASE_CONTAINER=continuumio/miniconda3
+ARG BASE_CONTAINER=continuumio/miniconda3:24.1.2-0
 FROM $BASE_CONTAINER
 
 ARG SPARK_VERSION
@@ -27,8 +27,8 @@ ENV SHELL=/bin/bash \
 ENV HOME=/home/$NB_USER \
     PATH=$JAVA_HOME/bin:$ANACONDA_HOME/bin:$HADOOP_HOME/bin:$SPARK_HOME/bin:$PATH
 
-ENV SPARK_VER $SPARK_VERSION
-ENV HADOOP_VER 3.3.1
+ENV SPARK_VER=$SPARK_VERSION
+ENV HADOOP_VER=3.3.1
 
 # INSTALL / DOWNLOAD ALL NEEDED PACKAGES
 RUN dpkg --purge --force-depends ca-certificates-java \
@@ -50,13 +50,9 @@ RUN dpkg --purge --force-depends ca-certificates-java \
     libsm6 \
     libxext-dev \
     libxrender1 \
-    software-properties-common \
     openssh-server \
     openssh-client \
-    && apt-add-repository 'deb http://security.debian.org/debian-security bullseye-security main' \
-    && apt-add-repository 'deb http://deb.debian.org/debian/ sid main' \
-    && apt-get update && apt-get install -yq --no-install-recommends  \
-    openjdk-8-jre-headless \
+    openjdk-11-jdk-headless \
     ca-certificates-java \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
@@ -103,6 +99,12 @@ USER root
 
 RUN conda install mamba -n base -c conda-forge && \
     mamba install --yes --quiet -c conda-forge \
+    # # ipykernel 7 has asyncio rewrite affecting kernels to become idle
+    'ipykernel<7' \
+    # # cap kernel-side jupyter stack for fleet convergence
+    # 'jupyter_client<9' \
+    # 'jupyter_server<3' \
+    # 'pyzmq<28' \
     'jupyter' \
     'r-devtools' \
     'r-stringr' \

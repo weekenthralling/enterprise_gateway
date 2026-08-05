@@ -56,9 +56,9 @@ We recommend installing kernel specifications into a shared folder like `/usr/lo
 Considering we would like to enable the IPython kernel to run on YARN Cluster and Client mode we would have to copy the sample configuration folder **spark_python_yarn_cluster** to where the Jupyter kernels are installed (e.g. jupyter kernelspec list)
 
 ```bash
-wget https://github.com/jupyter-server/enterprise_gateway/releases/download/v3.2.3/jupyter_enterprise_gateway_kernelspecs-3.2.3.tar.gz
+wget https://github.com/jupyter-server/enterprise_gateway/releases/download/v3.3.0/jupyter_enterprise_gateway_kernelspecs-3.3.0.tar.gz
 KERNELS_FOLDER=/usr/local/share/jupyter/kernels
-tar -zxvf jupyter_enterprise_gateway_kernelspecs-3.2.3.tar.gz --strip 1 --directory $KERNELS_FOLDER/spark_python_yarn_cluster/ spark_python_yarn_cluster/
+tar -zxvf jupyter_enterprise_gateway_kernelspecs-3.3.0.tar.gz --strip 1 --directory $KERNELS_FOLDER/spark_python_yarn_cluster/ spark_python_yarn_cluster/
 ```
 
 For more information about the IPython kernel, please visit the [IPython kernel](https://ipython.readthedocs.io/en/stable/) page.
@@ -68,9 +68,9 @@ For more information about the IPython kernel, please visit the [IPython kernel]
 Considering we would like to enable the Scala Kernel to run on YARN Cluster and Client mode we would have to copy the sample configuration folder **spark_scala_yarn_cluster** to where the Jupyter kernels are installed (e.g. jupyter kernelspec list)
 
 ```bash
-wget https://github.com/jupyter-server/enterprise_gateway/releases/download/v3.2.3/jupyter_enterprise_gateway_kernelspecs-3.2.3.tar.gz
+wget https://github.com/jupyter-server/enterprise_gateway/releases/download/v3.3.0/jupyter_enterprise_gateway_kernelspecs-3.3.0.tar.gz
 KERNELS_FOLDER=/usr/local/share/jupyter/kernels
-tar -zxvf jupyter_enterprise_gateway_kernelspecs-3.2.3.tar.gz --strip 1 --directory $KERNELS_FOLDER/spark_scala_yarn_cluster/ spark_scala_yarn_cluster/
+tar -zxvf jupyter_enterprise_gateway_kernelspecs-3.3.0.tar.gz --strip 1 --directory $KERNELS_FOLDER/spark_scala_yarn_cluster/ spark_scala_yarn_cluster/
 ```
 
 For more information about the Scala kernel, please visit the [Apache Toree](https://toree.apache.org/) page.
@@ -80,9 +80,9 @@ For more information about the Scala kernel, please visit the [Apache Toree](htt
 Considering we would like to enable the IRkernel to run on YARN Cluster and Client mode we would have to copy the sample configuration folder **spark_R_yarn_cluster** to where the Jupyter kernels are installed (e.g. jupyter kernelspec list)
 
 ```Bash
-wget https://github.com/jupyter-server/enterprise_gateway/releases/download/v3.2.3/jupyter_enterprise_gateway_kernelspecs-3.2.3.tar.gz
+wget https://github.com/jupyter-server/enterprise_gateway/releases/download/v3.3.0/jupyter_enterprise_gateway_kernelspecs-3.3.0.tar.gz
 KERNELS_FOLDER=/usr/local/share/jupyter/kernels
-tar -zxvf jupyter_enterprise_gateway_kernelspecs-3.2.3.tar.gz --strip 1 --directory $KERNELS_FOLDER/spark_R_yarn_cluster/ spark_R_yarn_cluster/
+tar -zxvf jupyter_enterprise_gateway_kernelspecs-3.3.0.tar.gz --strip 1 --directory $KERNELS_FOLDER/spark_R_yarn_cluster/ spark_R_yarn_cluster/
 ```
 
 For more information about the iR kernel, please visit the [IRkernel](https://irkernel.github.io/) page.
@@ -103,8 +103,8 @@ After installing the kernel specifications, you should have a `kernel.json` that
   "env": {
     "SPARK_HOME": "/usr/hdp/current/spark2-client",
     "PYSPARK_PYTHON": "/opt/conda/bin/python",
-    "PYTHONPATH": "${HOME}/.local/lib/python3.6/site-packages:/usr/hdp/current/spark2-client/python:/usr/hdp/current/spark2-client/python/lib/py4j-0.10.6-src.zip",
-    "SPARK_YARN_USER_ENV": "PYTHONUSERBASE=/home/yarn/.local,PYTHONPATH=${HOME}/.local/lib/python3.6/site-packages:/usr/hdp/current/spark2-client/python:/usr/hdp/current/spark2-client/python/lib/py4j-0.10.6-src.zip,PATH=/opt/conda/bin:$PATH",
+    "PYTHONPATH": "${HOME}/.local/lib/python3.10/site-packages:/usr/hdp/current/spark2-client/python:/usr/hdp/current/spark2-client/python/lib/py4j-0.10.6-src.zip",
+    "SPARK_YARN_USER_ENV": "PYTHONUSERBASE=/home/yarn/.local,PYTHONPATH=${HOME}/.local/lib/python3.10/site-packages:/usr/hdp/current/spark2-client/python:/usr/hdp/current/spark2-client/python/lib/py4j-0.10.6-src.zip,PATH=/opt/conda/bin:$PATH",
     "SPARK_OPTS": "--master yarn --deploy-mode cluster --name ${KERNEL_ID:-ERROR__NO__KERNEL_ID} --conf spark.yarn.submit.waitAppCompletion=false",
     "LAUNCH_OPTS": ""
   },

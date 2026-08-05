@@ -488,11 +488,12 @@ can override them with helm's `--set` or `--values` options. Always use `--set` 
 | `authToken`                                | Optional authorization token passed in all requests (see --EnterpriseGatewayApp.auth_token)                                                                                                                                                      | `nil`                                                                          |
 | `kernel.clusterRole`                       | Kernel cluster role created by this chart. Used if no KERNEL_NAMESPACE is provided by client.                                                                                                                                                    | `kernel-controller`                                                            |
 | `kernel.shareGatewayNamespace`             | Will start kernels in the same namespace as EG if True.                                                                                                                                                                                          | `false`                                                                        |
+| `kernel.defaultServiceAccountName`         | Service account name to use for kernel pods when no service account is specified. This service account should exist in the namespace where kernel pods are launched.                                                                             | `default`                                                                      |
 | `kernel.launchTimeout`                     | Timeout for kernel launching in seconds.                                                                                                                                                                                                         | `60`                                                                           |
 | `kernel.cullIdleTimeout`                   | Idle timeout in seconds. Default is 1 hour.                                                                                                                                                                                                      | `3600`                                                                         |
 | `kernel.cullConnected`                     | Whether to cull idle kernels that still have clients connected.                                                                                                                                                                                  | `false`                                                                        |
 | `kernel.allowedKernels`                    | List of kernel names that are available for use.                                                                                                                                                                                                 | `{r_kubernetes,...}` (see `values.yaml`)                                       |
-| `kernel.defaultKernelName`                 | Default kernel name should be something from the allowedKernels                                                                                                                                                                                  | `python-kubernetes`                                                            |
+| `kernel.defaultKernelName`                 | Default kernel name should be something from the allowedKernels                                                                                                                                                                                  | `python_kubernetes`                                                            |
 | `kernelspecs.image`                        | Optional custom data image containing kernelspecs to use. Cannot be used with NFS enabled.                                                                                                                                                       | `nil`                                                                          |
 | `kernelspecs.imagePullPolicy`              | Kernelspecs image pull policy.                                                                                                                                                                                                                   | `Always`                                                                       |
 | `nfs.enabled`                              | Whether NFS-mounted kernelspecs are enabled. Cannot be used with `kernelspecs.image` set.                                                                                                                                                        | `false`                                                                        |
@@ -945,10 +946,10 @@ NAME                                     READY     STATUS    RESTARTS   AGE
 po/enterprise-gateway-74c46cb7fc-jrkl7   1/1       Running   0          2h
 
 NAME                     TYPE       CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
-svc/enterprise-gateway   NodePort   10.110.253.2.3   <none>        8888:32422/TCP   2h
+svc/enterprise-gateway   NodePort   10.110.253.3.0   <none>        8888:32422/TCP   2h
 ```
 
-Of particular importance is the mapping to port `8888` (e.g.,`32422`). If you are performing this on the same host as where the notebook will run, then you will need to note the cluster-ip entry (e.g.,`10.110.253.2.3`).
+Of particular importance is the mapping to port `8888` (e.g.,`32422`). If you are performing this on the same host as where the notebook will run, then you will need to note the cluster-ip entry (e.g.,`10.110.253.3.0`).
 
 (Note: if the number of replicas is > 1, then you will see two pods listed with different five-character suffixes.)
 
@@ -1004,10 +1005,10 @@ kubectl logs -f pod/alice-5e755458-a114-4215-96b7-bcb016fc7b62
 
 Note that if using multiple replicas, commands against each pod are required.
 
-- The Kubernetes dashboard is useful as well. It's located at port `3.2.3` of the master node
+- The Kubernetes dashboard is useful as well. It's located at port `3.3.0` of the master node
 
 ```bash
-https://elyra-kube1.foo.bar.com:3.2.3/dashboard/#!/overview?namespace=default
+https://elyra-kube1.foo.bar.com:3.3.0/dashboard/#!/overview?namespace=default
 ```
 
 From there, logs can be accessed by selecting the `Pods` option in the left-hand pane followed by the _lined_ icon on

@@ -1,8 +1,14 @@
 # Ubuntu 18.04.1 LTS Bionic
-ARG BASE_CONTAINER=jupyter/r-notebook:2023-03-13
+ARG BASE_CONTAINER=quay.io/jupyter/r-notebook:r-4.5.2
 FROM $BASE_CONTAINER
 
 RUN conda install --quiet --yes \
+    # ipykernel 7 has asyncio rewrite affecting kernels to become idle
+    'ipykernel<7' \
+    # cap kernel-side jupyter stack for fleet convergence
+    'jupyter_client<9' \
+    'jupyter_server<3' \
+    'pyzmq<28' \
     'r-argparse' \
     pycryptodomex && \
     conda clean --all && \
@@ -25,7 +31,7 @@ RUN chown jovyan:users /usr/local/bin/bootstrap-kernel.sh && \
 
 USER jovyan
 
-ENV KERNEL_LANGUAGE R
+ENV KERNEL_LANGUAGE=R
 
 # Disble healthcheck inherited from notebook image
 HEALTHCHECK NONE

@@ -4,8 +4,8 @@ FROM $BASE_CONTAINER
 
 ARG SPARK_VERSION
 
-ENV SPARK_VER $SPARK_VERSION
-ENV SPARK_HOME /opt/spark
+ENV SPARK_VER=$SPARK_VERSION
+ENV SPARK_HOME=/opt/spark
 
 
 RUN mamba install --quiet --yes \
@@ -22,7 +22,7 @@ USER root
 
 RUN apt update && apt install -yq curl openjdk-8-jdk
 
-ENV JAVA_HOME /usr/lib/jvm/java
+ENV JAVA_HOME=/usr/lib/jvm/java
 RUN ln -s $(readlink -f /usr/bin/javac | sed "s:/bin/javac::") ${JAVA_HOME}
 
 # Download and install Spark
@@ -34,7 +34,9 @@ RUN curl -s https://archive.apache.org/dist/spark/spark-${SPARK_VER}/spark-${SPA
 
 # Install Enterprise Gateway wheel and kernelspecs
 COPY jupyter_enterprise_gateway*.whl /tmp/
-RUN pip install /tmp/jupyter_enterprise_gateway*.whl && \
+# ipykernel 7 has asyncio rewrite affecting kernels to become idle
+RUN pip install --upgrade "ipykernel<7" && \
+    pip install /tmp/jupyter_enterprise_gateway*.whl && \
 	rm -f /tmp/jupyter_enterprise_gateway*.whl
 
 ADD jupyter_enterprise_gateway_kernelspecs*.tar.gz /usr/local/share/jupyter/kernels/

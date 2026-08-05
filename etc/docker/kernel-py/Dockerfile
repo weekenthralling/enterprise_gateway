@@ -5,7 +5,13 @@ FROM $BASE_CONTAINER
 ENV PATH=$PATH:$CONDA_DIR/bin
 
 # Add debugger support
-RUN pip install --upgrade ipykernel
+# ipykernel 7 has asyncio rewrite affecting kernels to become idle
+# jupyter_client/server/pyzmq capped to converge with the rest of the fleet
+RUN pip install --upgrade \
+    "ipykernel<7" \
+    "jupyter_client<9" \
+    "jupyter_server<3" \
+    "pyzmq<28"
 
 RUN conda install --quiet --yes \
     cffi \
@@ -29,7 +35,7 @@ RUN chown jovyan:users /usr/local/bin/bootstrap-kernel.sh && \
 
 USER jovyan
 
-ENV KERNEL_LANGUAGE python
+ENV KERNEL_LANGUAGE=python
 
 # Disble healthcheck inherited from notebook image
 HEALTHCHECK NONE
